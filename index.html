@@ -91,15 +91,21 @@
                 </div>`
                 );
                 let item = document.querySelectorAll('.item')
+                let address
                 for (i = 0; i < item.length; i++) {
                   item[i].addEventListener('click', function (e) {
-                    let address = e.target.previousElementSibling.innerText
+
+                    if (e.target.className === "nearestPlace") {
+                      address = e.target.previousElementSibling.innerText
+                    } else if (e.target.className === "words") {
+                      address = e.target.innerText
+                    }
                     let targetUrl = `${baseUrl}/geocode?address=${address}`
                     fetch(targetUrl)
                       .then(res => res.json())
                       .then(data => {
                         let coor = data.w3w.coordinates
-                        console.log(`data`, data.w3w.coordinates)
+
                         map.flyTo({
                           center: [
                             coor.lng,
